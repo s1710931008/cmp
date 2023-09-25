@@ -9,7 +9,7 @@ const client = new net.Socket();
 
 // 连接到WebSocket服务器
 client.connect(8081, 'localhost', () => {
-  console.log('已连接到WebSocket服务器');
+  console.log('已連接到WebSocket伺服器');
 
   // 向WebSocket服务器发送消息
   const message = 'Hello, WebSocket Server!';
