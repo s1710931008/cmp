@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>即時更新數據顯示</title>
+</head>
+<body>
+    <div id="data-display"></div>
+    
+    <!-- <script>
+        const dataDisplay = document.getElementById('data-display');
+        
+        const ws = new WebSocket('ws://localhost:3000');
+        
+        ws.onmessage = (event) => {
+            const data = event.data;
+            dataDisplay.innerText = `接收到數據：${data}`;
+        };
+    </script> -->
+
+    <script>
+        const dataDisplay = document.getElementById('data-display');
+        
+        let ws;
+    
+        function connectWebSocket() {
+            ws = new WebSocket('ws://localhost:8080');
+    
+            ws.onopen = () => {
+                console.log('WebSocket已連接');
+            };
+    
+            ws.onmessage = (event) => {
+                const data = event.data;
+                dataDisplay.innerText = `接收到數據：${data}`;
+            };
+    
+            ws.onclose = (event) => {
+                if (event.code === 1006) {
+                    console.log('連線失敗，嘗試重新連線...');
+                    setTimeout(connectWebSocket, 1000); // 等待1秒後重新連接
+                } else {
+                    console.log('WebSocket連線已關閉');
+                }
+            };
+        }
+    
+        connectWebSocket();
+    </script>
+</body>
+</html>
