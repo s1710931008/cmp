@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* div{
+            width: 200px;
+            height: 200px;
+            border: 1px solid #000;
+        } */
+    </style>
+</head>
+<body>
+    <input type="text" name="send" id="send" placeholder="訊息">
+    <button>發送訊息</button>
+    <div id="msg"></div>
+
+
+
+    <script>
+        var input = document.querySelector('input')
+        var button = document.querySelector('button')
+        var div = document.querySelector('div')
+        const Type_Enter = 0;
+        const Type_Leave = 1;
+        const Type_Msg = 2;
+
+        // WebSocket
+        var socket = new WebSocket('ws://127.0.0.1:3000');
+        socket.addEventListener('open',function(){
+            div.innerHTML = '連線成功...'
+        })
+
+        //發送訊息
+        button.addEventListener('click',function(){
+            var value = input.value
+            socket.send(value)
+            input.value = ''
+        })
+
+        socket.addEventListener('message',function(e){
+            console.log(e.data)
+            // div.innerHTML = e.data
+            var data = JSON.parse(e.data)
+            var dv = document.createElement('div')
+            dv.innerText = data.msg + '----' + data.time
+            if(data.type === Type_Enter){
+                dv.style.color = 'green'
+            } else {
+                if(data.type === Type_Leave){
+                    dv.style.color ='red'
+                } else {
+                    if(data.type === Type_Msg){
+                        dv.style.color ='blue'
+                    }
+                }
+            }
+            div.appendChild(dv)
+        })
+    </script>
+</body>
+</html>
