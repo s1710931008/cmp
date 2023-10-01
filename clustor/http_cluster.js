@@ -15,11 +15,18 @@ if(cluster.isMaster){ //如果你是主線程
         cluster.fork();
     });
 
+    cluster.on('disconnect',function(){
+        cluster.fork();
+    })
+
 } else { // 子線程走下面
+    // process.disconnect(); 出錯誤退出  
 
     http.createServer((req, res)=>{
         res.end("Hello~\n");
     }).listen(8000,()=>{
         console.log('server is listening: '+8000);
     });
+
+
 }
