@@ -56,7 +56,7 @@ router.post('/',(req, res) => {
   // 新增資料資料庫
   AccountModel.create({ 
     ...req.body,
-    //修改 time 属性的值
+    //修改 time 屬性的值
     time: moment(req.body.time).toDate()
   })
   .then(() => { 
@@ -71,7 +71,7 @@ router.post('/',(req, res) => {
 router.get('/like',(req, res) => {
   let id = req.query.like
   console.log(id)
-    //獲取所有帳單訊息
+    //獲取所有賬單信息
   AccountModel.find({title:id}).then((data) => {
     res.json(data)
   })
@@ -90,9 +90,9 @@ router.get('/like',(req, res) => {
   // });
 });
 
-//删除记录
+//刪除記錄
 router.get('/:id', checkLoginMiddleware, (req, res) => {
-  //获取 params 的 id 参数
+  //取得 params 的 id 參數
   let id = req.params.id;
   // 刪除資料
   AccountModel.deleteOne({_id: id})

@@ -12,9 +12,8 @@ console.log(process.version);   //node版本
 // process.exit()
 
 // 事件
-bbb(); 
 process.on('uncaughtException', err => {
-	console.log('Uncaughted Exception happens!')
+	console.log('Uncaughted Exception happens!')  //偵異步程式錯誤
 	// 記錄錯誤下來，等到所有其他服務處理完成，然後停掉當前進程。
 	console.log(err);
 	server.close(() => {

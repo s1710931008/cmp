@@ -6,10 +6,11 @@ const wsServerUrl = 'ws://localhost:8080';
 
 // 创建一个TCP客户端
 const client = new net.Socket();
+let val =null
 
 // 连接到WebSocket服务器
 client.connect(8081, 'localhost', () => {
-  console.log('已連接到WebSocket伺服器');
+  console.log('已连接到WebSocket服务器');
 
   // 向WebSocket服务器发送消息
   const message = 'Hello, WebSocket Server!';
@@ -22,8 +23,13 @@ client.connect(8081, 'localhost', () => {
 
   ws.on('message', (data) => {
     console.log(`从WebSocket服务器接收到消息: ${data}`);
+    
+    // 将消息发送到TCP客户端
+    client.write(`从WebSocket服务器接收到 TCP 消息: ${data}`);
 
     // 可以在这里处理WebSocket服务器的响应消息
+    //填加users陣列
+    return val=data;
   });
 
   ws.on('close', () => {
@@ -44,7 +50,9 @@ client.connect(8081, 'localhost', () => {
 
   // 向TCP服务器发送消息
   client.write('Hello, TCP Server!');
+  client.write(val);
 });
+
 
 // 处理TCP客户端的错误
 client.on('error', (error) => {

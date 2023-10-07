@@ -29,17 +29,17 @@ router.post('/reg', (req, res) => {
 
 
 
-//登录页面
+//登入頁面
 router.get('/login', (req, res) => {
   //响应 HTML 内容
   res.render('auth/login');
 });
 
-//登录操作
+//登入操作_驗證帳號
 router.post('/login', (req, res) => {
-  //获取用户名和密码
+  //獲取用帳號和密碼
   let {username, password} = req.body;
-  //查询数据库
+  //查詢數資料庫
   UserModel.findOne({username: username, password: md5(password)})
   .then((data) => {
     if(!data){
@@ -47,8 +47,8 @@ router.post('/login', (req, res) => {
     }
         req.session.username = data.username;
         req.session._id = data._id;
-        //登录成功响应
-        res.render('./account/success', {msg: '登录成功', url: '/account'});
+        //登入成功響應
+        res.render('./account/success', {msg: '登入成功', url: '/account'});
     console.log(data);
   })
   .catch(err => {
@@ -57,9 +57,9 @@ router.post('/login', (req, res) => {
   });
 });
 
-//退出登录
+//退出登入
 router.post('/logout', (req, res) => {
-  //销毁 session
+  //銷毀 session
   req.session.destroy(() => {
     res.render('./account/success', {msg: '退出成功', url: '/login'});
   })

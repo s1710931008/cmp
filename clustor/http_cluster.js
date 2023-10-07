@@ -16,6 +16,7 @@ if(cluster.isMaster){ //如果你是主線程
     });
 
     cluster.on('disconnect',function(){
+        console.log('重啟worker');
         cluster.fork();
     })
 
